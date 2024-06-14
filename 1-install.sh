@@ -33,14 +33,27 @@ timedatectl set-ntp true
 # Format partitions
 # ------------------------------------------------------
 mkfs.fat -F 32 /dev/$sda1;
-mkfs.ext4 -f /dev/$sda2
+mkfs.btrfs -f /dev/$sda2
 mkswap /dev/$sda3
+
 
 # ------------------------------------------------------
 # Mount points for btrfs
 # ------------------------------------------------------
 mount /dev/$sda2 /mnt
-swapon /dev/$sda3
+btrfs su cr /mnt/@
+btrfs su cr /mnt/@cache
+btrfs su cr /mnt/@home
+btrfs su cr /mnt/@snapshots
+btrfs su cr /mnt/@log
+umount /mnt
+
+mount -o compress=zstd:1,noatime,subvol=@ /dev/$sda2 /mnt
+mkdir -p /mnt/{boot,home,.snapshots,var/{cache,log}}
+mount -o compress=zstd:1,noatime,subvol=@cache /dev/$sda2 /mnt/var/cache
+mount -o compress=zstd:1,noatime,subvol=@home /dev/$sda2 /mnt/home
+mount -o compress=zstd:1,noatime,subvol=@log /dev/$sda2 /mnt/var/log
+mount -o compress=zstd:1,noatime,subvol=@snapshots /dev/$sda2 /mnt/.snapshots
 mount --mkdir /dev/$sda1 /mnt/boot
 
 # -----------------------------------------------------
@@ -51,7 +64,7 @@ while true; do
     case $yn in
         [Yy]* )
             echo "Mount started."
-            mount --mkdir /dev/$sda4 /mnt/home/data
+            mount --mkdir /dev/$sda4 /mnt/data
         break;;
         [Nn]* ) 
             exit;
