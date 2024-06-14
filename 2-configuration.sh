@@ -9,7 +9,7 @@
 # by Stephan Raabe (2023)
 # ------------------------------------------------------
 clear
-keyboardlayout="de-latin1"
+keyboardlayout="us"
 zoneinfo="Asia/Ho_Chi_Minh"
 hostname="arch"
 username="thientran"
