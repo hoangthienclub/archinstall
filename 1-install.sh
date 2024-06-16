@@ -77,7 +77,7 @@ done
 # ------------------------------------------------------
 # Install base packages
 # ------------------------------------------------------
-pacstrap -K /mnt base base-devel git linux linux-firmware vim openssh reflector rsync amd-ucode
+pacstrap -K /mnt base base-devel linux linux-firmware dhcpcd networkmanager sof-firmware git neovim man-db man-pages texinfo reflector nano
 
 # ------------------------------------------------------
 # Generate fstab
