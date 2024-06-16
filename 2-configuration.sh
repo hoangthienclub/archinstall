@@ -35,7 +35,7 @@ pacman -Syy
 # ------------------------------------------------------
 # Install Packages
 # ------------------------------------------------------
-pacman --noconfirm -S grub efibootmgr networkmanager network-manager-applet dialog wpa_supplicant xdg-user-dirs alsa-utils alsa-plugins pipewire pipewire-alsa pipewire-pulse wireplumber openssh iw dhcpcd bluez bluez-utils blueman ntp mesa intel-media-driver libva-intel-driver vulkan-intel noto-fonts ttf-opensans ttf-firacode-nerd noto-fonts-emoji noto-fonts-cjk zsh rsync zip unzip ranger neofetch htop acpid grub-btrfs
+pacman --noconfirm -S grub efibootmgr networkmanager network-manager-applet dialog wpa_supplicant xdg-user-dirs alsa-utils alsa-plugins pipewire pipewire-alsa pipewire-pulse wireplumber openssh iw dhcpcd bluez bluez-utils blueman ntp mesa intel-media-driver libva-intel-driver vulkan-intel noto-fonts ttf-opensans ttf-firacode-nerd noto-fonts-emoji noto-fonts-cjk zsh rsync zip unzip ranger neofetch htop acpid neovim
 
 # pacman --noconfirm -S grub xdg-desktop-portal-wlr efibootmgr networkmanager network-manager-applet dialog wpa_supplicant mtools dosfstools base-devel linux-headers avahi xdg-user-dirs xdg-utils gvfs gvfs-smb nfs-utils inetutils dnsutils bluez bluez-utils cups hplip alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack bash-completion openssh rsync reflector acpi acpi_call dnsmasq openbsd-netcat ipset firewalld flatpak sof-firmware nss-mdns acpid os-prober ntfs-3g terminus-font exa bat htop ranger zip unzip neofetch duf xorg xorg-xinit xclip grub-btrfs xf86-video-amdgpu xf86-video-nouveau xf86-video-intel xf86-video-qxl brightnessctl pacman-contrib inxi
 
@@ -97,8 +97,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # ------------------------------------------------------
 # Before: BINARIES=()
 # After:  BINARIES=(btrfs setfont)
-sed -i 's/BINARIES=()/BINARIES=(btrfs setfont)/g' /etc/mkinitcpio.conf
-mkinitcpio -p linux
+mkinitcpio -P
 
 # ------------------------------------------------------
 # Add user to wheel
