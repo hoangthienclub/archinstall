@@ -77,7 +77,7 @@ done
 # ------------------------------------------------------
 # Install base packages
 # ------------------------------------------------------
-pacstrap -K /mnt base base-devel linux linux-firmware dhcpcd networkmanager sof-firmware git neovim man-db man-pages texinfo reflector nano
+pacstrap -K /mnt base base-devel linux linux-firmware dhcpcd networkmanager sof-firmware git neovim man-db man-pages texinfo nano
 
 # ------------------------------------------------------
 # Generate fstab

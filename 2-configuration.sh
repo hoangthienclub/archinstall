@@ -26,6 +26,9 @@ hwclock --systohc
 echo "Start reflector..."
 reflector -c "Vietnam," -p https -a 3 --sort rate --save /etc/pacman.d/mirrorlist
 
+pacman-key --list-sigs Build
+pacman-key --lsign-key 68B3537F39A313B3E574D06777193F152BDBE6A6
+pacman-key --list-sigs Build
 
 # ------------------------------------------------------
 # Synchronize mirrors

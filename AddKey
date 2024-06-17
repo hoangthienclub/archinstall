@@ -1,0 +1,46 @@
+If you try to install a package after this pacman, there is a problem that the package will be rejected as untrusted.
+
+error: <package>: signature from "Arch Linux ARM Build System <builder@archlinuxarm.org>" is marginal trust
+After spending a few hours trying to figure this out, I found that the problem was that the "Arch Linux ARM Build System" key was not trusted.
+
+[root@honearch keyrings]# pacman-key --list-sigs Build
+pub   rsa4096 2014-01-18 [SC]
+      68B3537F39A313B3E574D06777193F152BDBE6A6
+uid           [marginal] Arch Linux ARM Build System <builder@archlinuxarm.org>
+sig 3        77193F152BDBE6A6 2014-01-18  [self-signature]
+sig          B55C5315DCD9EE1A 2014-01-18  Jason Plum (Arch Linux ARM Master Key) <jplum@master-key.archlinuxarm.org>
+sig          BC704E86B823CD25 2014-01-18  Kevin Mihelich (Arch Linux ARM Master Key) <kevin@master-key.archlinuxarm.org>
+sub   rsa4096 2014-01-18 [E]
+sig          77193F152BDBE6A6 2014-01-18  [self-signature]
+pacman-key --list-sigsCheck the key ID.
+Specify the argument Buildand try to hit "Arch Linux ARM Build System". You can see that
+the status is marginal(Limited).
+
+[root@honearch keyrings]# pacman-key --lsign-key 68B3537F39A313B3E574D06777193F152BDBE6A6
+  -> Locally signed 1 keys.
+==> Updating trust database...
+gpg: Note: third-party key signatures using the SHA1 algorithm are rejected
+gpg: (use option "--allow-weak-key-signatures" to override)
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:  10  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 1  valid:  10  signed:  97  trust: 1-, 0q, 0n, 9m, 0f, 0u
+gpg: depth: 2  valid:  75  signed:  21  trust: 75-, 0q, 0n, 0m, 0f, 0u
+gpg: next trustdb check due at 2023-12-31
+Next pacman-key --lsign-key, we locally sign the key ID we just checked.
+If we check the status again after this...
+
+[root@honearch ~]# pacman-key --list-sigs Build
+pub   rsa4096 2014-01-18 [SC]
+      68B3537F39A313B3E574D06777193F152BDBE6A6
+uid           [  full  ] Arch Linux ARM Build System <builder@archlinuxarm.org>
+sig 3        77193F152BDBE6A6 2014-01-18  [self-signature]
+sig   L      083A98E05FB197DE 2023-12-11  Pacman Keyring Master Key <pacman@localhost>
+sig          B55C5315DCD9EE1A 2014-01-18  Jason Plum (Arch Linux ARM Master Key) <jplum@master-key.archlinuxarm.org>
+sig          BC704E86B823CD25 2014-01-18  Kevin Mihelich (Arch Linux ARM Master Key) <kevin@master-key.archlinuxarm.org>
+sub   rsa4096 2014-01-18 [E]
+sig          77193F152BDBE6A6 2014-01-18  [self-signature]
+marginalfullIt has changed from to .
+Now Arch Linux ARM Build will trust signed packages.
+
+Arch Linux ARM packages verify the keys using the keyring installed in 2-2. Installing required packages . I understand that just installing the keyring does not mean that it is completely trusted, and that a local signature needs to be added in .archlinuxarm-keyring
+pacman-key --lsign-key
