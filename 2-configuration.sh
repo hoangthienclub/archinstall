@@ -35,6 +35,8 @@ pacman-key --list-sigs Build
 pacman-key --lsign-key 68B3537F39A313B3E574D06777193F152BDBE6A6
 pacman-key --list-sigs Build
 
+pacman -Syy
+
 # ------------------------------------------------------
 # Install Packages
 # ------------------------------------------------------
